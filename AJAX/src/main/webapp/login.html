@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户登录</title>
+</head>
+<body>
+	<h1>用户登录</h1>
+	<div>用户名:</div>
+	<div><input id="username"/></div>
+	<div>密码:</div>
+	<div><input id="password"/></div>
+	<div><input type="button" value="登录"
+		onclick="login()"/></div>
+	
+	<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+	<script type="text/javascript">
+		function login(){
+			//调用ajax()函数发出请求,并处理响应
+			var u = $("#username").val();//获取输入框中的内容
+			var p = $("#password").val();
+			$.ajax({
+				"url":"user/login.do",
+				"data":"username="+u+"&password="+p,
+				"type":"post",
+				"dataType":"json",
+				"success":function(json){
+					if(json.state == 1){
+						//登录成功
+						location.href = "index.html";
+					}else if(json.state == 2){
+						//用户名错误
+						alert(json.message);
+					}else if(json.state == 3){
+						//密码错误
+						alert(json.message);
+					}
+				}
+			});
+		}
+	</script>
+</body>
+</html>
